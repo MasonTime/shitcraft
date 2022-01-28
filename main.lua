@@ -8,6 +8,7 @@ require "objects/block"
 function love.load()
     sixteenth = love.graphics.getHeight()/30
     tileset = love.graphics.newImage("graphics/tile.png")
+    
     tileset:setFilter("nearest","nearest")
 
     blockLoad()
