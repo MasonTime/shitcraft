@@ -117,7 +117,7 @@ function playerUpdate()
                     for h,j in ipairs(v.flags) do
                         if j == "solid" then
                             print("aaaaaaaa")
-                            v.hp = v.hp - 1
+                            v.hp = v.hp - p.str
                         end
                     end  
                 end
