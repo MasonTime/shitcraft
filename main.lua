@@ -24,3 +24,5 @@ function love.draw()
     blockDraw()
     playerDraw()
 end
+
+--test to see if the repo on github is working
