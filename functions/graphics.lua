@@ -3,7 +3,7 @@
 function spr(image, num ,x,y,f)
     local sx = num * 8
     local sy = 0
-
+    local divider = image:getWidth()
     if num > 7 then
         sy = num - 8
         sx = sx - sx

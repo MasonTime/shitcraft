@@ -4,8 +4,8 @@ function playerLoad()
     p = {}
 
     --position vairables
-    p.x = 0
-    p.y = 0
+    p.x = 5
+    p.y = 5
 
     --new position variables
     p.dx = 0
@@ -39,7 +39,11 @@ function playerLoad()
     p.inv = {}
     p.inv[1] = wood
     p.inv[2] = stone
+    p.inv[3] = tree
     p.selected = 2
+
+    --mode variable
+    p.mode = "changeDir"
 end
 
 function playerUpdate()
@@ -47,36 +51,55 @@ function playerUpdate()
     function love.keypressed(key)
 
         --checks to see if a key was just pressed and then updates the delta position variable and sliding animation variable accordingly
-        if key == "d" then
-            p.dx = 1
-            p.dir = "r"
-            if isSolid(p.x+p.dx,p.y+p.dy) ~= true then
-                p.ox = p.w * -1
-                playerAnimate()
-            end
-        elseif key == "a" then
-            p.dx = -1
-            p.dir = "l"
-            if isSolid(p.x+p.dx,p.y+p.dy) ~= true then    
-                p.ox = p.w
-                playerAnimate()
-            end
-        elseif key == "w" then
-            p.dy = -1
-            p.dir = "u"
-            if isSolid(p.x+p.dx,p.y+p.dy) ~= true then    
-                p.oy = p.h
-                playerAnimate()
-            end
-        elseif key == "s" then
-            p.dy = 1
-            p.dir = "d"
-            if isSolid(p.x+p.dx,p.y+p.dy) ~= true then
-                p.oy = p.h * -1
-                playerAnimate()
+        if p.mode == "move" then  
+            if key == "d" then
+                p.dx = 1
+                if isSolid(p.x+p.dx,p.y+p.dy) ~= true then
+                    p.ox = p.w * -1
+                    playerAnimate()
+                end
+            elseif key == "a" then
+                p.dx = -1
+                if isSolid(p.x+p.dx,p.y+p.dy) ~= true then    
+                    p.ox = p.w
+                    playerAnimate()
+                end
+            elseif key == "w" then
+                p.dy = -1
+                if isSolid(p.x+p.dx,p.y+p.dy) ~= true then    
+                    p.oy = p.h
+                    playerAnimate()
+                end
+            elseif key == "s" then
+                p.dy = 1
+                if isSolid(p.x+p.dx,p.y+p.dy) ~= true then
+                    p.oy = p.h * -1
+                    playerAnimate()
+                end
             end
         end
-        
+
+
+        if key == "h" then
+            if p.mode == "move" then
+                p.mode = "changeDir"
+            elseif p.mode == "changeDir" then
+                p.mode = "move"
+            end
+        end
+
+        if p.mode == "changeDir" then
+            if key == "d" then
+                p.dir = "r"
+            elseif key == "a" then
+                p.dir = "l"
+            elseif key == "w" then
+                p.dir = "u"
+            elseif key == "s" then
+                p.dir = "d" 
+            end
+        end
+
         --changing what you are holding
         if key == "i" then
             p.selected = p.selected + 1
@@ -88,8 +111,12 @@ function playerUpdate()
         if key == "j" then
             for i,v in ipairs(blocks) do
                 if v.x == p.x + p.bx and v.y == p.y + p.by then
-                    print("aaaaaaaa")
-                    table.remove(blocks, i)
+                    for h,j in ipairs(v.flags) do
+                        if j == "solid" then
+                            print("aaaaaaaa")
+                            table.remove(blocks, i)
+                        end
+                    end  
                 end
             end
         end
@@ -175,7 +202,7 @@ function playerDraw()
     love.graphics.setColor(255,255,255)
     spr(tileset,0,p.sx,p.sy,p.flip)
     spr(tileset,2,p.bsx,p.bsy,false)
-    love.graphics.print(p.selected)
+    love.graphics.print(p.selected .. "\n"..p.mode)
 end
 
 function playerAnimate()

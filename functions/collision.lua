@@ -5,7 +5,11 @@ function isSolid(x,y)
 
     for i,v in ipairs(blocks) do
         if v.x == x and v.y == y then
-            hit = true
+            for h,j in ipairs(v.flags) do
+                if j == "solid" then
+                    hit = true
+                end
+            end
         end
     end
 
