@@ -76,7 +76,15 @@ function playerUpdate()
                 playerAnimate()
             end
         end
+        
+        --changing what you are holding
+        if key == "i" then
+            p.selected = p.selected + 1
+        elseif key == "u" then
+            p.selected = p.selected - 1
+        end
 
+        --breaking block
         if key == "j" then
             for i,v in ipairs(blocks) do
                 if v.x == p.x + p.bx and v.y == p.y + p.by then
@@ -85,7 +93,8 @@ function playerUpdate()
                 end
             end
         end
-
+        
+        --adding object
         if key == "k" then
             if  isSolid(p.x + p.bx,p.y + p.by) == false then
                 if p.inv[p.selected] ~= nil then
@@ -95,6 +104,12 @@ function playerUpdate()
         end
     end
 
+    --checking if selected is in parameters
+    if p.selected > table.maxn(p.inv) then
+        p.selected = table.maxn(p.inv)
+    elseif p.selected < 1 then
+        p.selected = 1
+    end
     --updates the building cross hair
     if p.dir == "r" then
         p.bsx = p.sx+sixteenth
@@ -160,6 +175,7 @@ function playerDraw()
     love.graphics.setColor(255,255,255)
     spr(tileset,0,p.sx,p.sy,p.flip)
     spr(tileset,2,p.bsx,p.bsy,false)
+    love.graphics.print(p.selected)
 end
 
 function playerAnimate()
