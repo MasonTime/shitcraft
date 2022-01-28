@@ -1,8 +1,8 @@
 --Collisions
 
-function isSolid(x,y)
+function isSolid(x,y,flags)
     local hit = false
-
+    
     for i,v in ipairs(blocks) do
         if v.x == x and v.y == y then
             for h,j in ipairs(v.flags) do

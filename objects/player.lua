@@ -44,6 +44,9 @@ function playerLoad()
 
     --mode variable
     p.mode = "changeDir"
+
+    --player streangth
+    p.str = 3
 end
 
 function playerUpdate()
@@ -114,7 +117,7 @@ function playerUpdate()
                     for h,j in ipairs(v.flags) do
                         if j == "solid" then
                             print("aaaaaaaa")
-                            table.remove(blocks, i)
+                            v.hp = v.hp - 1
                         end
                     end  
                 end

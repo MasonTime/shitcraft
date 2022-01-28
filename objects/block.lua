@@ -11,7 +11,9 @@ end
 function blockUpdate()
 
     for i,v in ipairs(blocks) do
-        v:update()
+        if v.hp < 1 then
+            table.remove(blocks,i)
+        end
     end
 end
 
